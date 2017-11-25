@@ -54,6 +54,6 @@ class azureComputerVision:
 if __name__ == "__main__":
     dotenv_path = join(dirname(__file__), '.env')
     load_dotenv(dotenv_path)
-    cv = azureComputerVision({'vision':os.environ['KEY1'],
+    cv = azureComputerVision({'vision':os.environ['VISIONKEY'],
         'face':os.environ['FACEKEY']})
     print cv.queryComputerVision(sys.argv[1])
