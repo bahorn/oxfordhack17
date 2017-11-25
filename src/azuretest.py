@@ -5,12 +5,12 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 
 class azureComputerVision:
-    def __init__(self, apikey, zone="northeurope"):
-        self.apikey = apikey
+    def __init__(self, api, zone="northeurope"):
+        self.apikey = api
         self.zone = zone
     
     def _queryComputerVision(self, method, input, query, api='vision'):
-        headers = {'Ocp-Apim-Subscription-Key': self.apikey}
+        headers = {'Ocp-Apim-Subscription-Key': self.apikey[api]}
         endpoint = "https://{}.api.cognitive.microsoft.com/{}/v1.0".format(
                 self.zone, api)
         if type(input) == str:
@@ -43,18 +43,17 @@ class azureComputerVision:
         return self._queryComputerVision('ocr', input, query)
 
     def detectFace(self, input, returnFaceId=True, returnFaceLandmarks=False,
-            returnFaceAttributes=None):
+            faceAttributes=None):
         query = []
         query += ['returnFaceId={}'.format(returnFaceId)]
         query += ['returnFaceLandmarks={}'.format(returnFaceLandmarks)]
-        if returnFaceAttributes != None:
-            query += ["returnFaceAttributes="+','.join(returnFaceAttributes)]
+        if faceAttributes != None:
+            query += ["returnFaceAttributes="+','.join(faceAttributes)]
         return self._queryComputerVision('detect', input, query, api='face')
 
 if __name__ == "__main__":
     dotenv_path = join(dirname(__file__), '.env')
     load_dotenv(dotenv_path)
-    apikey = os.environ['FACEKEY']
-    cv = azureComputerVision(apikey)
-    #print cv.queryOCR(file(sys.argv[1]))
-    print cv.detectFace('https://www.biography.com/.image/t_share/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg')
+    cv = azureComputerVision({'vision':os.environ['KEY1'],
+        'face':os.environ['FACEKEY']})
+    print cv.queryComputerVision(sys.argv[1])
