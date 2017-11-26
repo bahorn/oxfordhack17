@@ -8,12 +8,16 @@ class PubMed:
         handle = Entrez.efetch(db='pubmed',
                            retmode='xml',
                            id=','.join(ids))
-        return Entrez.read(handle)
+        
+        readit = Entrez.read(handle)
+        return readit
 
     def searchArticles(self, query):
         Entrez.email = self.email
         handle = Entrez.esearch(db='pubmed', retmax=10, term=query)
         record = Entrez.read(handle)
         handle.close()
-        return self.fetch_details(record['IdList'])
- 
+        if len(record['IdList']) > 0:
+            return self.fetch_details(record['IdList'])
+        else:
+            return None

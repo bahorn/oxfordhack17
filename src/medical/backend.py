@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_cors import CORS
 import json
 import os
@@ -33,6 +33,27 @@ def search():
         temp['_id'] = None
         output += [temp]
     return json.dumps(output)
+
+@app.route('/condition')
+def condition():
+    query = request.args.get("q")
+    client = MongoClient()
+    db = client.test_database
+    collection = db[os.environ['COLLECTION']+'pain2']
+    result = collection.find_one({query: {"$exists": True}})
+    output = []
+    for i in result:
+        if i == '_id':
+            continue
+        for j in result[i]:
+            base = j['MedlineCitation']#['Article']
+            output += [
+                {
+                    'title':base['Article']['ArticleTitle'],
+                    'pmid':base['PMID'],
+                    'abstract':'\n'.join(base['Article']['Abstract']['AbstractText'])}
+                ]
+    return Response(json.dumps(output), mimetype='text/json')
 
 @app.route("/")
 def hello():

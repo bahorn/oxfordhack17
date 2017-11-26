@@ -39,7 +39,7 @@ with open('mesh_sample.csv') as csvfile:
                 print ",".join([
                     i['MedlineCitation']['PMID'],
                     currDoc[j]['descriptor_id'],
-                    j,
+                    j.replace(',','\\,'),
                     str(currDoc[j]['MajorTopic']),
                     str(currDoc[j]['value'])])
             time.sleep(0.4)
