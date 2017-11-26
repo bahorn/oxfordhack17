@@ -1,8 +1,10 @@
 from flask import Flask, request
+from flask_cors import CORS
 import json
 import os
 from pymongo import MongoClient
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/search")
 def search():
