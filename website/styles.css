@@ -1,5 +1,5 @@
-.search-form {
-    max-width: 600px;
+.narrow {
+    max-width: 700px;
     margin: auto;
 }
 
@@ -14,4 +14,16 @@ h5 {
 
 p {
     font-family: 'Roboto', sans-serif;
+}
+
+input {
+    text-align: center;
+}
+
+.list-table {
+    width: 100%;
+}
+
+.list-table td, th{
+    padding: 10px 20px;
 }
