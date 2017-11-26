@@ -3,6 +3,7 @@ from flask_cors import CORS
 import json
 import os
 from pymongo import MongoClient
+from operator import itemgetter, attrgetter, methodcaller
 app = Flask(__name__)
 CORS(app)
 
@@ -48,15 +49,22 @@ def condition():
         if i == '_id':
             continue
         for j in result[i]:
-            base = j['MedlineCitation']#['Article']
-            output += [
-                {
-                    'title':base['Article']['ArticleTitle'],
-                    'pmid':base['PMID'],
-                    'abstract':'\n'.join(base['Article']['Abstract']['AbstractText'])}
-                ]
+            try:
+                base = j['MedlineCitation']#['Article']
+                output += [
+                    {
+                        'title':base['Article']['ArticleTitle'],
+                        'pmid':base['PMID'],
+                        'abstract':'\n'.join(base['Article']['Abstract']['AbstractText'])}
+                    ]
+            except KeyError:
+                continue
     return Response(json.dumps(output), mimetype='text/json')
 
 @app.route("/")
 def hello():
     return "backendAPI"
+
+
+if __name__ == "__main__":
+    application.run(host='0.0.0.0')
