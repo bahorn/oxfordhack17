@@ -49,15 +49,15 @@ def condition():
         if i == '_id':
             continue
         for j in result[i]:
-            try KeyError:
-            base = j['MedlineCitation']#['Article']
-            output += [
-                {
-                    'title':base['Article']['ArticleTitle'],
-                    'pmid':base['PMID'],
-                    'abstract':'\n'.join(base['Article']['Abstract']['AbstractText'])}
-                ]
-            except:
+            try:
+                base = j['MedlineCitation']#['Article']
+                output += [
+                    {
+                        'title':base['Article']['ArticleTitle'],
+                        'pmid':base['PMID'],
+                        'abstract':'\n'.join(base['Article']['Abstract']['AbstractText'])}
+                    ]
+            except KeyError:
                 continue
     return Response(json.dumps(output), mimetype='text/json')
 
