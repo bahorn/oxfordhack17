@@ -42,6 +42,8 @@ def condition():
     collection = db[os.environ['COLLECTION']+'pain2']
     result = collection.find_one({query: {"$exists": True}})
     output = []
+    if result == None:
+        return json.dumps({'err':'not found'})
     for i in result:
         if i == '_id':
             continue
