@@ -86,7 +86,9 @@ angular.module('patientPapers', [])
             $scope.disp['loadingSpinner'] = true;
             $scope.disp['searchResults'] = false;
             $scope.disp['patientView'] = false;
-
+            $scope.disp['conditionView'] = false;
+            resetDisplay();
+            
             console.log('Searching for: ' + $scope.search.q)
             $http({
                 method: 'GET',
@@ -128,7 +130,7 @@ angular.module('patientPapers', [])
             $scope.disp['errorBox'] = false;
             $scope.disp['headerBlock'] = false;
             $scope.disp['patientView'] = false;
-            
+
             $http({
                 method: 'GET',
                 url: baseUrl + '/condition',
@@ -154,11 +156,17 @@ angular.module('patientPapers', [])
 
             });
 
-            $scope.disp['loadingSpinner'] = false;            
+            $scope.disp['loadingSpinner'] = false;
         }
 
         $scope.loadCondition = function (condition_name) {
-            $scope.disp['loadingSpinner'] = false; 
+            $scope.disp['loadingSpinner'] = false;
             getCondition(condition_name)
+        }
+
+        $scope.backFromCondition = function () {
+            $scope.disp['conditionView'] = false;
+            $scope.disp['patientView'] = true;
+            $scope.disp['headerBlock'] = true;
         }
     });

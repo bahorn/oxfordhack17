@@ -80,7 +80,7 @@
           <div class="form-group input-group">
             <input type="text" class="form-control" autocomplete="off" ng-model="search.q">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button" ng-click="getPatient()">Search</button>
+              <button class="btn btn-default" type="button" ng-click="getPatient()" style="cursor:pointer">Search</button>
             </span>
           </div>
         </form>
@@ -146,7 +146,7 @@
             <th scope="col">Since</th>
           </thead>
           <tbody>
-            <tr ng-repeat="cond in patient.conditions" ng-click="loadCondition(cond.condition)">
+            <tr ng-repeat="cond in patient.conditions" ng-click="loadCondition(cond.condition)" style="cursor:pointer">
               <td data-label=Condition>{{cond.condition}}</td>
               <td data-label=Since>{{cond.onset.slice(0,10)}}</td>
             </tr>
@@ -160,6 +160,10 @@
     <div class="bg-light text-dark">
       <div class="container" ng-show="disp.conditionView" ng-cloak>
         <div class="narrow">
+          <br>
+          <div ng-click="backFromCondition()">
+            <button class="btn btn-default" type="button" aria-expanded="false" style="cursor:pointer">← Back</button>
+          </div>
           <br>
           <div class="condition-block" ng-repeat="paper in conditions">
             <h2>{{paper.title}}</h2>
