@@ -3,6 +3,7 @@ from flask_cors import CORS
 import json
 import os
 from pymongo import MongoClient
+from operator import itemgetter, attrgetter, methodcaller
 app = Flask(__name__)
 CORS(app)
 
@@ -60,3 +61,7 @@ def condition():
 @app.route("/")
 def hello():
     return "backendAPI"
+
+
+if __name__ == "__main__":
+    application.run(host='0.0.0.0')
