@@ -16,6 +16,7 @@
 
   <!-- Custom styles for this template -->
   <link href="css/scrolling-nav.css" rel="stylesheet">
+  <link href="css/loader.css" rel="stylesheet">
 
   <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre|Roboto" rel="stylesheet">
 
@@ -50,52 +51,71 @@
     </div>
   </nav>
 
-  <header class="bg-primary text-white">
+  <header class="bg-primary text-white" ng-show="disp.headerBlock" ng-cloak>
     <div class="container text-center">
       <h1>Welcome to PatientPapers</h1>
       <p class="lead">Try searching below for a patient</p>
     </div>
   </header>
 
-  <div class="container">
-    <div class="narrow">
-      <form ng-submit="getPatient()">
-        <div class="form-group">
-          <label for="name"></label>
-          <input type="text" class="form-control" id="usr" autocomplete="off" ng-model="search.q">
-          <br>
-        </div>
-      </form>
+  <header class="bg-danger text-white" ng-show="disp.errorBox" ng-cloak>
+    <div class="container text-center">
+      <h1>Oh no!</h1>
+      <p class="lead">Something wasn't quite right with that request. Try a new search query</p>
     </div>
-  </div>
+  </header>
 
-  <!-- <div class="container">
-    <div class="narrow">
-      <div class="list-option" ng-repeat="patient in patientList">
-        <p>{{patient.name}}</p>
+  <!-- Search box -->
+  <div class="bg-light text-dark">
+    <div class="container">
+      <div class="narrow">
+        <form ng-submit="getPatient()">
+          <br>
+          <div class="form-group input-group">
+            <input type="text" class="form-control" autocomplete="off" ng-model="search.q">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ng-click="getPatient()">Search</button>
+            </span>
+          </div>
+        </form>
       </div>
     </div>
-  </div> -->
+  </div>
 
-  <div class="container">
-    <div class="narrow">
-      <table class="table-hover list-table">
-        <thead>
-          <th>Name</th>
-          <th>Gender</th>
-          <th>Birth Date</th>
-        </thead>
-        <tbody>
-          <tr ng-repeat="patient in patientList">
-            <td>{{patient.name}}</td>
-            <td>{{patient.gender}}</td>
-            <td>{{patient.birthdate}}</td>
-          </tr>
-        </tbody>
-      </table>
+
+  <!-- Loading spinner -->
+  <div class="bg-light text-dark">
+    <div class="container" ng-show="disp.loadingSpinner" ng-cloak>
+      <div class="narrow" style="height:80px">
+        <div class="loader">Loading...</div>
+      </div>
     </div>
   </div>
 
+
+  <!-- Search results table -->
+  <div class="bg-light text-dark">
+    <div class="container" ng-show="disp.searchResults" ng-cloak>
+      <div class="narrow">
+        <table class="table-hover list-table">
+          <thead>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Birth Date</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="patient in patientList">
+              <td>{{patient.name}}</td>
+              <td>{{patient.gender}}</td>
+              <td>{{patient.birthdate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Light gap -->
   <div class="bg-light text-dark">
     <div class="container">
       <br>
@@ -147,11 +167,11 @@
     </section> -->
 
   <!-- Footer -->
-  <footer class="py-5 bg-dark">
+  <!-- <footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; PatientPapers 2017</p>
     </div>
-  </footer>
+  </footer> -->
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
