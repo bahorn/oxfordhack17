@@ -18,7 +18,7 @@
   <link href="css/scrolling-nav.css" rel="stylesheet">
 
   <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre|Roboto" rel="stylesheet">
-  
+
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
   <script src="app.js"></script>
 
@@ -58,29 +58,50 @@
   </header>
 
   <div class="container">
-    <div class="search-form">
-      <form>
+    <div class="narrow">
+      <form ng-submit="getPatient()">
         <div class="form-group">
           <label for="name"></label>
-          <input type="text" class="form-control" id="usr">
+          <input type="text" class="form-control" id="usr" autocomplete="off" ng-model="search.q">
           <br>
         </div>
       </form>
     </div>
   </div>
 
-  <div class="bg-dark text-white">
-    <div class="container">
-      <br>
-      <h1 class="ng-cloak">{{patientPapers.patient.name}}</h1>
-      <br>
+  <!-- <div class="container">
+    <div class="narrow">
+      <div class="list-option" ng-repeat="patient in patientList">
+        <p>{{patient.name}}</p>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="container">
+    <div class="narrow">
+      <table class="table-hover list-table">
+        <thead>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Birth Date</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="patient in patientList">
+            <td>{{patient.name}}</td>
+            <td>{{patient.gender}}</td>
+            <td>{{patient.birthdate}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <div class="bg-light text-dark">
     <div class="container">
       <br>
-
+      <br>
+      <br>
+      <br>
       <br>
     </div>
   </div>
