@@ -1,5 +1,6 @@
 from flask import Flask, request
 import json
+import os
 from pymongo import MongoClient
 app = Flask(__name__)
 
@@ -17,7 +18,7 @@ def search():
         limit = int(limit)
     client = MongoClient()
     db = client.test_database
-    collection = db.realdata
+    collection = db[os.environ['COLLECTION']
     output = []
     realQuery = {"$text": {"$search": query}}
     if isDead == True:
