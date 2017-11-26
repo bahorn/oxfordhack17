@@ -49,6 +49,7 @@ def condition():
         if i == '_id':
             continue
         for j in result[i]:
+            try KeyError:
             base = j['MedlineCitation']#['Article']
             output += [
                 {
@@ -56,6 +57,8 @@ def condition():
                     'pmid':base['PMID'],
                     'abstract':'\n'.join(base['Article']['Abstract']['AbstractText'])}
                 ]
+            except:
+                continue
     return Response(json.dumps(output), mimetype='text/json')
 
 @app.route("/")
