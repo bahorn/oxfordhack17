@@ -1,0 +1,17 @@
+.search-form {
+    max-width: 600px;
+    margin: auto;
+}
+
+.navbar-brand,
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Averia Serif Libre', cursive;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+}
