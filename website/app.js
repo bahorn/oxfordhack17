@@ -12,7 +12,8 @@ angular.module('patientPapers', [])
             'searchResults': false,
             'loadingSpinner': false,
             'errorBox': false,
-            'headerBlock': true
+            'headerBlock': true,
+            'patientView': true
         }
 
         function resetDisplay() {
@@ -34,27 +35,38 @@ angular.module('patientPapers', [])
 
         $scope.patientList = [];
 
-        this.patient = {
-            name: 'Name Surname'
-        };
+        $scope.patient = {};
 
         function passOutSearchResult(patients) {
             $scope.patientList = [];
             for (i = 0; i < patients.length; i++) {
                 var patient = patients[i];
+
                 var gender = patient['gender'].capitalize();
                 if (gender.toUpperCase() == 'MALE') {
                     gender += ' ♂';
                 } else if (gender.toUpperCase() == 'FEMALE') {
                     gender += ' ♀';
                 }
+
+                var dead = false;
+                if (patient['deceasedDateTime'] != undefined) {
+                    dead = true;
+                }
+                var deathDate = "";
+                if (dead) {
+                    deathDate = patient['deceasedDateTime'].slice(0,10);
+                }
+
                 $scope.patientList.push({
                     'id': i,
                     'forename': patient['name'],
                     'surname': patient['surname'],
                     'name': patient['name'] + ' ' + patient['surname'],
                     'gender': gender,
-                    'birthdate': patient['birthdate']
+                    'birthdate': patient['birthdate'],
+                    'dead': dead,
+                    'deathDate': deathDate
                 })
             }
         }
@@ -69,6 +81,8 @@ angular.module('patientPapers', [])
         $scope.getPatient = function () {
             $scope.disp['loadingSpinner'] = true;
             $scope.disp['searchResults'] = false;
+            $scope.disp['patientView'] = false;
+
             console.log('Searching for: ' + $scope.search.q)
             $http({
                 method: 'GET',
@@ -92,4 +106,16 @@ angular.module('patientPapers', [])
 
             });
         };
+
+        $scope.loadPatient = function (id) {
+            var patient = $scope.patientList[id];
+            console.log(patient);
+            $scope.disp['loadingSpinner'] = false;
+            $scope.disp['searchResults'] = false;
+            $scope.disp['errorBox'] = false;
+            $scope.disp['headerBlock'] = true;
+
+            $scope.patient = patient;
+            $scope.disp['patientView'] = true;
+        }
     });
