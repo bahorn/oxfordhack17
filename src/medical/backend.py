@@ -18,7 +18,7 @@ def search():
         limit = int(limit)
     client = MongoClient()
     db = client.test_database
-    collection = db[os.environ['COLLECTION']
+    collection = db[os.environ['COLLECTION']]
     output = []
     realQuery = {"$text": {"$search": query}}
     if isDead == True:
