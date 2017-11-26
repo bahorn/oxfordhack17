@@ -13,15 +13,14 @@ angular.module('patientPapers', [])
             'loadingSpinner': false,
             'errorBox': false,
             'headerBlock': true,
-            'patientView': true
+            'patientView': false,
+            'conditionView': false
         }
 
         function resetDisplay() {
-            $scope.disp = {
-                'loadingSpinner': false,
-                'errorBox': false,
-                'headerBlock': true
-            }
+            $scope.disp['loadingSpinner'] = false;
+            $scope.disp['errorBox'] = false;
+            $scope.disp['headerBlock'] = true;
         }
         resetDisplay();
 
@@ -34,6 +33,8 @@ angular.module('patientPapers', [])
         };
 
         $scope.patientList = [];
+
+        $scope.conditions = [];
 
         $scope.patient = {};
 
@@ -55,8 +56,10 @@ angular.module('patientPapers', [])
                 }
                 var deathDate = "";
                 if (dead) {
-                    deathDate = patient['deceasedDateTime'].slice(0,10);
+                    deathDate = patient['deceasedDateTime'].slice(0, 10);
                 }
+
+                var conditions = patient['conditions'];
 
                 $scope.patientList.push({
                     'id': i,
@@ -66,7 +69,8 @@ angular.module('patientPapers', [])
                     'gender': gender,
                     'birthdate': patient['birthdate'],
                     'dead': dead,
-                    'deathDate': deathDate
+                    'deathDate': deathDate,
+                    'conditions': conditions
                 })
             }
         }
@@ -117,5 +121,44 @@ angular.module('patientPapers', [])
 
             $scope.patient = patient;
             $scope.disp['patientView'] = true;
+        }
+
+        var getCondition = function (condition_name) {
+            $scope.disp['searchResults'] = false;
+            $scope.disp['errorBox'] = false;
+            $scope.disp['headerBlock'] = false;
+            $scope.disp['patientView'] = false;
+            
+            $http({
+                method: 'GET',
+                url: baseUrl + '/condition',
+                params: {
+                    'q': condition_name
+                }
+            }).then(function successCallback(response) {
+                console.log(response);
+                if (response.data.length > 0) {
+                    $scope.conditions = response.data;
+                    $scope.disp['conditionView'] = true;
+                    return true;
+
+                } else {
+                    getError();
+                    return false;
+                }
+
+            }, function errorCallback(response) {
+                console.log(response);
+                getError();
+                return false;
+
+            });
+
+            $scope.disp['loadingSpinner'] = false;            
+        }
+
+        $scope.loadCondition = function (condition_name) {
+            $scope.disp['loadingSpinner'] = false; 
+            getCondition(condition_name)
         }
     });

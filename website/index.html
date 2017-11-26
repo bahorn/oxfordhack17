@@ -120,6 +120,7 @@
   <div class="bg-light text-dark">
     <div class="container" ng-show="disp.patientView" ng-cloak>
       <div class="narrow">
+        <hr>
         <center>
           <h2>{{patient.name}}</h2>
           <p>
@@ -130,11 +131,43 @@
             <strong>{{patient.deathDate}}</strong>
           </p>
         </center>
+        <hr>
 
         <h3>Conditions:</h3>
-        <ul>
-          <li>Dead-ness</li>
-        </ul>
+        <table>
+          <thead>
+            <th scope="col">Condition</th>
+            <th scope="col">Since</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="cond in patient.conditions" ng-click="loadCondition(cond.condition)">
+              <td data-label=Condition>{{cond.condition}}</td>
+              <td data-label=Since>{{cond.onset.slice(0,10)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- Condition view -->
+    <div class="bg-light text-dark">
+      <div class="container" ng-show="disp.conditionView" ng-cloak>
+        <div class="narrow">
+          <br>
+          <div class="condition-block" ng-repeat="paper in conditions">
+            <h2>{{paper.title}}</h2>
+            <p>{{paper.abstract}}</p>
+            <p class="right-align">
+              <em>Read more at
+                <a href="https://www.ncbi.nlm.nih.gov/pubmed/{{paper.pmid}}" target="_blank">ncbi.nlm.nih.gov/pubmed/{{paper.pmid}}</a>
+              </em>
+            </p>
+            <hr>
+            <br>
+            <br>
+          </div>
+        </div>
       </div>
     </div>
 
